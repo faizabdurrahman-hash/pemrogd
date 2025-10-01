@@ -10,9 +10,7 @@ int main(){
  cout<<data<<endl;
  }
  file.close();
- return 0;
  }else{
  cout<<"File gagal dibuka!"<<endl;
- return 1;
  }
 }
