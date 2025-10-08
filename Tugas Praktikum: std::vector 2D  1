@@ -1,0 +1,27 @@
+#include <iostream>
+#include <vector>
+#include <string>
+using namespace std;
+
+int main() {
+    int N;
+    cout << "Masukkan banyaknya transaksi: ";
+    cin >> N;
+
+    vector<pair<string, int>> transaksi; // vector berisi pasangan <namaBarang, harga>
+    string nama;
+    int harga;
+
+    cout << "\nMasukkan data transaksi (namaBarang harga):\n";
+    for (int i = 0; i < N; i++) {
+        cin >> nama >> harga;
+        transaksi.push_back(make_pair(nama, harga)); // simpan ke vector
+    }
+
+    cout << "daftar transaksi" << endl;
+    for (int i = 0; i < N; i++) {
+        cout << i + 1 << ". " << transaksi[i].first << " = " << transaksi[i].second << endl;
+    }
+
+
+}
