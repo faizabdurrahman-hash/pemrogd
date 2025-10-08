@@ -1,0 +1,72 @@
+#include <iostream>
+#include <vector>
+#include <string>
+#include <map>
+#include <limits>
+using namespace std;
+
+using pii = pair<string,int>;
+
+void bersihkan(vector<pii>& v) {
+    for (int i = 0; i < v.size(); ) {
+        if (v[i].second <= 0) {
+            v.erase(v.begin() + i);
+        } else {
+            i++;
+        }
+    }
+}
+
+void hapusduplikat(vector<pii>& v) {
+    map<string, int> terakhir;
+    for (auto& item : v) {
+        terakhir[item.first] = item.second; // harga terakhir menggantikan yang lama
+    }
+
+    v.clear();
+    for (auto& item : terakhir) {
+        v.push_back({item.first, item.second});
+    }
+}
+
+
+void ringkasan(const vector<pii>& v) {
+    if (v.empty()) {
+        cout << "Tidak ada data valid setelah dibersihkan.\n";
+        return;
+    }
+
+    int jumlah = v.size();
+    int minHarga = numeric_limits<int>::max();
+    int maxHarga = numeric_limits<int>::min();
+    int total = 0;
+
+    for (auto& item : v) {
+        int harga = item.second;
+        if (harga < minHarga) minHarga = harga;
+        if (harga > maxHarga) maxHarga = harga;
+        total += harga;
+    }
+
+    double rata = static_cast<double>(total) / jumlah;
+
+    cout << "\n=== Ringkasan Data ===\n";
+    cout << "Jumlah barang unik : " << jumlah << endl;
+    cout << "Harga minimum      : " << minHarga << endl;
+    cout << "Harga maksimum     : " << maxHarga << endl;
+    cout << "Harga rata-rata    : " << rata << endl;
+}
+
+int main() {
+    vector<pii> data = {
+        {"apel",2000}, {"jeruk",1500}, {"apel",-100},
+        {"mangga",3000}, {"jeruk",1500}, {"pisang",0},
+        {"apel",2500}, {"mangga",3000}
+    };
+
+    bersihkan(data);
+    hapusduplikat(data);
+    ringkasan(data);
+
+    return 0;
+}
