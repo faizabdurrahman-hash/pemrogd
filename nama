@@ -1,0 +1,93 @@
+#include <iostream>
+#include <cstdlib>
+#include <ctime>
+using namespace std;
+
+// Fungsi pencarian sekuensial
+int cari_sekuensial(int data[], int s, int cari) {
+    bool ketemu = false;
+    int i = 0;
+
+    while ((i < s) && !ketemu) {
+        ketemu = (data[i++] == cari);
+    }
+
+    if (ketemu) return i;      // nilai positif → ditemukan
+    else return -i;            // nilai negatif → tidak ditemukan
+}
+
+// Fungsi selection sort
+void selection_sort(int data[], int n) {
+    for (int i = 0; i < n - 1; i++) {
+        int minIdx = i;
+        for (int j = i + 1; j < n; j++) {
+            if (data[j] < data[minIdx]) {
+                minIdx = j;
+            }
+        }
+        // Tukar
+        int temp = data[i];
+        data[i] = data[minIdx];
+        data[minIdx] = temp;
+    }
+}
+
+int main() {
+    const int N = 1000;
+    int data[N];
+
+    srand(time(0));
+
+    // 1. Generate 1000 data acak
+    for (int i = 0; i < N; i++) {
+        data[i] = rand() % 5000; // nilai acak 0-4999
+    }
+
+    cout << "=== PENCARIAN SEBELUM DATA DIURUTKAN ===\n";
+
+    // 2. Cari 5 data yang ada
+    for (int i = 0; i < 5; i++) {
+        int cari = data[rand() % N];  // ambil nilai yang ada
+        int langkah = cari_sekuensial(data, N, cari);
+        cout << "Mencari (ada): " << cari
+             << " → Langkah: " << abs(langkah)
+             << " (Positif = ditemukan)\n";
+    }
+
+    // 3. Cari 5 data yang tidak ada
+    cout << "\n";
+    for (int i = 0; i < 5; i++) {
+        int cari = 6000 + i; // nilai pasti tidak ada
+        int langkah = cari_sekuensial(data, N, cari);
+        cout << "Mencari (tidak ada): " << cari
+             << " → Langkah: " << abs(langkah)
+             << " (Negatif = tidak ditemukan)\n";
+    }
+
+    // 4. Urutkan data
+    cout << "\nMengurutkan data...\n";
+    selection_sort(data, N);
+
+    cout << "\n=== PENCARIAN SETELAH DATA DIURUTKAN ===\n";
+
+    // 5. Cari 5 data yang ada (lagi)
+    for (int i = 0; i < 5; i++) {
+        int cari = data[rand() % N];
+        int langkah = cari_sekuensial(data, N, cari);
+        cout << "Mencari (ada): " << cari
+             << " → Langkah: " << abs(langkah)
+             << " (Positif = ditemukan)\n";
+    }
+
+    // 6. Cari 5 data yang tidak ada (lagi)
+    cout << "\n";
+    for (int i = 0; i < 5; i++) {
+        int cari = 7000 + i;
+        int langkah = cari_sekuensial(data, N, cari);
+        cout << "Mencari (tidak ada): " << cari
+             << " → Langkah: " << abs(langkah)
+             << " (Negatif = tidak ditemukan)\n";
+    }
+
+    return 0;
+}
